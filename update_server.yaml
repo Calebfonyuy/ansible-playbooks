@@ -4,9 +4,7 @@
   become: true
   tasks:
     - name: Update apt cache
-      apt:
-        update_cache: yes
+      command: apt-get update
 
     - name: Upgrade all packages
-      apt:
-        upgrade: dist
+      command: apt-get upgrade -y
