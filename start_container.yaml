@@ -1,0 +1,8 @@
+---
+- name: Start Docker container
+  hosts: all
+  tasks:
+    - name: Ensure Docker container is running
+      docker_container:
+        name: "{{ container_name }}"
+        state: started

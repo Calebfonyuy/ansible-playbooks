@@ -1,0 +1,23 @@
+---
+- name: Start containers with docker compose
+  hosts: all
+  gather_facts: false
+  vars:
+    compose_folder: "{{ folder | default('/opt/docker') }}"
+  
+  tasks:
+    - name: Check if docker-compose.yml exists
+      stat:
+        path: "{{ compose_folder }}/docker-compose.yml"
+      register: compose_file
+
+    - name: Start docker compose services
+      community.docker.docker_compose:
+        project_src: "{{ compose_folder }}"
+        state: present
+      when: compose_file.stat.exists
+
+    - name: Display message if compose file not found
+      debug:
+        msg: "docker-compose.yml not found in {{ compose_folder }}"
+      when: not compose_file.stat.exists

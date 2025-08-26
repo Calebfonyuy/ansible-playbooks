@@ -1,0 +1,9 @@
+---
+- name: Start Xen VM
+  hosts: all
+  become: true
+  become_user: root
+  become_method: sudo
+  tasks:
+    - name: Ensure Xen VM is running
+      command: "xl destroy {{ vm_name }}"
