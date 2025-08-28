@@ -11,7 +11,6 @@
     - name: Display running containers
       debug:
         msg: |
-          Container: {{ item.Names[0] | regex_replace('^/', '') }}
           Image: {{ item.Image }}
           Status: {{ item.Status }}
           Ports: {{ item.Ports | map(attribute='PublicPort') | select('defined') | list | join(', ') }}
