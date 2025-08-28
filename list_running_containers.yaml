@@ -10,15 +10,4 @@
 
     - name: Display running containers
       debug:
-        msg: |
-          Container: {{ item.Names[0] | regex_replace('^/', '') }}
-          Image: {{ item.Image }}
-          Status: {{ item.Status }}
-          Ports: {{ item.Ports | map(attribute='PublicPort') | select('defined') | list | join(', ') }}
-      loop: "{{ docker_info.containers | selectattr('State', 'equalto', 'running') | list }}"
-      when: docker_info.containers | selectattr('State', 'equalto', 'running') | list | length > 0
-
-    - name: No running containers found
-      debug:
-        msg: "No running containers found on {{ inventory_hostname }}"
-      when: docker_info.containers | selectattr('State', 'equalto', 'running') | list | length == 0
+        msg: "{{ docker_info }}"
