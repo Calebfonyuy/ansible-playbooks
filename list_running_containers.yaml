@@ -15,7 +15,7 @@
           Image: {{ item.Image }}
           Status: {{ item.Status }}
           Ports: {{ item.Ports | map(attribute='PublicPort') | select('defined') | list | join(', ') }}
-      loop: "{{ docker_info.containers | selectattr('State', 'equalto', 'running') | list }}"
+      loop: "{{ docker_info.containers | list }}"
       when: docker_info.containers | list | length > 0
 
     - name: No running containers found
