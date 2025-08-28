@@ -1,0 +1,13 @@
+---
+- name: List all running Xen VMs
+  hosts: all
+  become: yes
+  tasks:
+    - name: Get list of running Xen VMs
+      command: xl list
+      register: xen_vm_list
+      changed_when: false
+
+    - name: Display running VMs
+      debug:
+        msg: "{{ xen_vm_list.stdout_lines }}"
