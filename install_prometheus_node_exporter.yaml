@@ -13,7 +13,6 @@
       unarchive:
         src: "/tmp/node_exporter.tar.gz"
         dest: "/usr/local/bin/"
-        remote_src: yes
     
     - name: Create node_exporter user
       user:
