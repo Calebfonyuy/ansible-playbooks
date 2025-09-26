@@ -51,8 +51,6 @@
         name: node_exporter
         enabled: yes
         state: started
-        restart_policy: always
-        restart_policy_retry: 5
 
     - name: Display all IP addresses
       command: ip addr show
