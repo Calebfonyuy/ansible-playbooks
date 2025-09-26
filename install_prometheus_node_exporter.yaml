@@ -1,0 +1,62 @@
+---
+- name: Install Prometheus Node Exporter
+  hosts: all
+  become: yes
+  tasks:
+    - name: Download Prometheus Node Exporter binary
+      get_url:
+        url: "https://github.com/prometheus/node_exporter/releases/download/v1.9.1/node_exporter-1.9.1.linux-amd64.tar.gz"
+        dest: "/tmp/node_exporter.tar.gz"
+        mode: '0644'
+    
+    - name: Extract Node Exporter binary
+      unarchive:
+        src: "/tmp/node_exporter.tar.gz"
+        dest: "/usr/local/bin/"
+        remote_src: yes
+    
+    - name: Create node_exporter user
+      user:
+        name: node_exporter
+        system: yes
+        shell: /sbin/false
+        create_home: no
+        state: present
+    
+    - name: Create systemd service file for Node Exporter
+      copy:
+        dest: /etc/systemd/system/node_exporter.service
+        content: |
+          [Unit]
+          Description=Prometheus Node Exporter
+          Wants=network-online.target
+          After=network-online.target
+
+          [Service]
+          User=node_exporter
+          Group=node_exporter
+          ExecStart=/usr/local/bin/node_exporter
+          Restart=always
+
+          [Install]
+          WantedBy=multi-user.target
+
+    - name: Reload systemd to apply new service
+      systemd:
+        daemon_reload: yes
+    
+    - name: Enable and start Node Exporter service
+      systemd:
+        name: node_exporter
+        enabled: yes
+        state: started
+        restart_policy: always
+        restart_policy_retry: 5
+
+    - name: Display all IP addresses
+      command: ip addr show
+      register: ip_output
+
+    - name: Show IP addresses
+      debug:
+        var: ip_output.stdout_lines
