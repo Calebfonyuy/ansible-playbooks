@@ -1,0 +1,14 @@
+---
+- name: Start Kubernets Nodes
+  hosts: all
+  become: yes
+  become_user: root
+  become_method: sudo
+  gather_facts: yes
+  tasks:
+    - name: Start Master Node
+      command: "xl create {{ master_vm_config_file }}"
+
+    - name: Start Worker Nodes
+      command: "xl create {{ item }}"
+      loop: "{{ worker_vm_config_files }}"
