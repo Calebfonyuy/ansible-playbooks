@@ -2,6 +2,7 @@
 - name: Install WireGuard
   hosts: all
   become: yes
+  become_user: root
   become_method: sudo
   tasks:
     - name: Install WireGuard package
