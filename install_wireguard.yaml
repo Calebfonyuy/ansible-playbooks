@@ -38,3 +38,19 @@
         name: wg-quick@homelab
         enabled: yes
         state: started
+
+    - name: Display public key
+      command: cat /etc/wireguard/public_key
+      register: public_key_output
+
+    - name: Show public key
+      debug:
+        var: public_key_output.stdout
+    
+    - name: Display private key
+      command: cat /etc/wireguard/private_key
+      register: private_key_output
+
+    - name: Show private key
+      debug:
+        var: private_key_output.stdout
