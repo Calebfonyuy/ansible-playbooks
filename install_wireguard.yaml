@@ -1,0 +1,40 @@
+---
+- name: Install WireGuard
+  hosts: all
+  become: yes
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+
+    - name: Install WireGuard package
+      apt:
+        name: wireguard
+        state: present
+    
+    - name: Generate WireGuard private key
+      command: wg genkey > /etc/wireguard/private_key
+
+    - name: Generate WireGuard public key
+      command: cat /etc/wireguard/private_key | wg pubkey > /etc/wireguard/public_key
+
+    - name: Create WireGuard configuration file
+      ansible.builtin.copy:
+        dest: /etc/wireguard/homelab.conf
+        content: |
+          [Interface]
+          PrivateKey = {{ lookup('file', '/etc/wireguard/private_key') }}
+          Address = {{ vpn_ip }}/24
+          MTU = 1280
+
+          [Peer]
+          PublicKey = {{ server_public_key }}
+          Endpoint = vpn.suuynyuy.com:51820
+          AllowedIPs = 10.0.0.0/8
+          PersistentKeepalive = 25
+
+    - name: Ensure WireGuard service is enabled and started
+      systemd:
+        name: wg-quick@homelab
+        enabled: yes
+        state: started
