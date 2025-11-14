@@ -17,8 +17,13 @@
         mode: 0600
     
     - name: Generate WireGuard private key
-      command: "wg genkey > /etc/wireguard/private_key"
-      ignore_errors: true
+      command: wg genkey
+      register: private_key
+
+    - name: Write private key to file
+      copy:
+        content: "{{ private_key }}"
+        dest: /etc/wireguard/private_key
 
     - name: Create Public Key file
       ansible.builtin.file:
@@ -27,15 +32,20 @@
         mode: 0600
 
     - name: Generate WireGuard public key
-      command: "cat /etc/wireguard/private_key | wg pubkey > /etc/wireguard/public_key"
-      ignore_errors: true
+      command: wg pubkey < /etc/wireguard/private_key
+      register: public_key
+
+    - name: Write Public key to file
+      copy:
+        content: "{{ public_key }}"
+        dest: /etc/wireguard/public_key
 
     - name: Create WireGuard configuration file
       ansible.builtin.copy:
         dest: /etc/wireguard/homelab.conf
         content: |
           [Interface]
-          PrivateKey = {{ lookup('file', '/etc/wireguard/private_key') }}
+          PrivateKey = {{ private_key }}
           Address = {{ vpn_ip }}/24
           MTU = 1280
 
