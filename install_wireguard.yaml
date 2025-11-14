@@ -22,7 +22,7 @@
 
     - name: Write private key to file
       copy:
-        content: "{{ private_key }}"
+        content: "{{ private_key['stdout'] }}"
         dest: /etc/wireguard/private_key
 
     - name: Create Public Key file
@@ -32,12 +32,12 @@
         mode: 0600
 
     - name: Generate WireGuard public key
-      command: wg pubkey < /etc/wireguard/private_key
+      command: "wg pubkey < /etc/wireguard/private_key"
       register: public_key
 
     - name: Write Public key to file
       copy:
-        content: "{{ public_key }}"
+        content: "{{ public_key['stdout'] }}"
         dest: /etc/wireguard/public_key
 
     - name: Create WireGuard configuration file
