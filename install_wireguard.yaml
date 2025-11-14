@@ -13,17 +13,17 @@
     - name: Create Private Key file
       ansible.builtin.file:
         path: /etc/wireguard/private_key
-        state: file
+        state: touch
         mode: 0600
     
     - name: Generate WireGuard private key
       command: "wg genkey > /etc/wireguard/private_key"
       ignore_errors: true
 
-    - name: Create Private Key file
+    - name: Create Public Key file
       ansible.builtin.file:
         path: /etc/wireguard/public_key
-        state: file
+        state: touch
         mode: 0600
 
     - name: Generate WireGuard public key
