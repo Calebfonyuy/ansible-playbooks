@@ -11,10 +11,10 @@
         state: present
     
     - name: Generate WireGuard private key
-      command: wg genkey >> /etc/wireguard/private_key
+      command: "wg genkey > /etc/wireguard/private_key"
 
     - name: Generate WireGuard public key
-      command: cat /etc/wireguard/private_key | wg pubkey >> /etc/wireguard/public_key
+      command: "cat /etc/wireguard/private_key | wg pubkey > /etc/wireguard/public_key"
 
     - name: Create WireGuard configuration file
       ansible.builtin.copy:
