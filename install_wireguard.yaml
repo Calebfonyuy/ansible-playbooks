@@ -9,24 +9,26 @@
       apt:
         name: wireguard
         state: present
+
+    - name: Create Private Key file
+      ansible.builtin.file:
+        path: /etc/wireguard/private_key
+        state: file
+        mode: 0600
     
     - name: Generate WireGuard private key
       command: "wg genkey > /etc/wireguard/private_key"
       ignore_errors: true
 
-    - name: Verify that private key exists
+    - name: Create Private Key file
       ansible.builtin.file:
-        path: /etc/wireguard/private_key
+        path: /etc/wireguard/public_key
         state: file
+        mode: 0600
 
     - name: Generate WireGuard public key
       command: "cat /etc/wireguard/private_key | wg pubkey > /etc/wireguard/public_key"
       ignore_errors: true
-
-    - name: Verify that public key exists
-      ansible.builtin.file:
-        path: /etc/wireguard/public_key
-        state: file
 
     - name: Create WireGuard configuration file
       ansible.builtin.copy:
