@@ -45,7 +45,7 @@
         dest: /etc/wireguard/homelab.conf
         content: |
           [Interface]
-          PrivateKey = {{ private_key }}
+          PrivateKey = {{ private_key['stdout'] }}
           Address = {{ vpn_ip }}/24
           MTU = 1280
 
@@ -55,10 +55,14 @@
           AllowedIPs = 10.0.0.0/8
           PersistentKeepalive = 25
 
-    - name: Ensure WireGuard service is enabled and started
+    - name: Enable WireGuard Service
       systemd:
         name: wg-quick@homelab
-        enabled: yes
+        state: enabled
+
+    - name: Start WireGuard Service
+      systemd:
+        name: wg-quick@homelab
         state: started
 
     - name: Display public key
