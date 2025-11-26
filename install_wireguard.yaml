@@ -80,3 +80,6 @@
     - name: Show private key
       debug:
         var: private_key_output.stdout
+    
+    - name: Start WireGuard Interface
+      shell: wg-quick up homelab
