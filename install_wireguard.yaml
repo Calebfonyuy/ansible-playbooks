@@ -32,7 +32,7 @@
         mode: 0600
 
     - name: Generate WireGuard public key
-      command: "wg pubkey < /etc/wireguard/private_key"
+      command: "echo {{ private_key['stdout'] }} | wg pubkey"
       register: public_key
 
     - name: Write Public key to file
