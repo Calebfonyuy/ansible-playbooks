@@ -58,7 +58,7 @@
     - name: Enable WireGuard Service
       systemd:
         name: wg-quick@homelab
-        state: enabled
+        enabled: yes
 
     - name: Start WireGuard Service
       systemd:
