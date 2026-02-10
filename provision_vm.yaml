@@ -40,7 +40,6 @@
       args:
         chdir: "{{ vm_path }}/{{ vm_name }}"
       register: start_vm_result
-      ignore_errors: true
     
     - name: Check if VM started successfully
       debug:
