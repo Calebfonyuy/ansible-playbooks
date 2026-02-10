@@ -12,13 +12,13 @@
         owner: root
         group: root
     
-    # - name: Copy Template Disk Image
-    #   copy:
-    #     src: "{{ vm_path }}/{{ vm_template }}/template_disk.img"
-    #     dest: "{{ vm_path }}/{{ vm_name }}/{{ vm_name }}.img"
-    #     owner: root
-    #     group: root
-    #     remote_src: yes
+    - name: Copy Template Disk Image
+      copy:
+        src: "{{ vm_path }}/{{ vm_template }}/template_disk.img"
+        dest: "{{ vm_path }}/{{ vm_name }}/{{ vm_name }}.img"
+        owner: root
+        group: root
+        remote_src: yes
     
     - name: Create VM Config File
       copy:
