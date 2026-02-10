@@ -23,10 +23,10 @@
     - name: Create VM Config File
       copy:
         content: |
-          name = "\"{{ vm_name }}\""
+          name = "{{ vm_name }}"
           memory = {{ vm_memory }}
           vcpus = {{ vm_vcpus }}
-          disk = [ 'file: "{{ vm_path }}/{{ vm_name }}/{{ vm_name }}".img,xvda,w' ]
+          disk = [ 'file: {{ vm_path }}/{{ vm_name }}/{{ vm_name }}.img,xvda,w' ]
           vif=[ 'bridge=vmbr0,mac="{{vm_mac}}, ip="{{vm_ip}}/24"' ]
           bootloader="/usr/local/lib/xen/bin/pygrub"
 
