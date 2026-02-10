@@ -23,8 +23,8 @@
     - name: Configure Static IP Address
       lineinfile:
         path: /etc/network/interfaces
-        regexp: '^iface eth0 inet'
-        line: "iface eth0 inet static\n    address {{ vm_ip }}\n    netmask 255.255.255.0\n    gateway 192.168.1.1\n    dns-nameservers 192.168.1.254"
+        regexp: '^iface enX0 inet'
+        line: "iface enX0 inet static\n    address {{ vm_ip }}\n    netmask 255.255.255.0\n    gateway 192.168.1.1\n    dns-nameservers 192.168.1.254"
 
     - name: Restart Networking Service
       service:
