@@ -25,3 +25,12 @@
         path: /etc/network/interfaces
         regexp: '^iface eth0 inet'
         line: "iface eth0 inet static\n    address {{ vm_ip }}\n    netmask 255.255.255.0\n    gateway 192.168.1.1\n    dns-nameservers 192.168.1.254"
+
+    - name: Restart Networking Service
+      service:
+        name: networking
+        state: restarted
+
+    - name: Reboot VM to Apply Changes
+      reboot:
+        reboot_timeout: 300
