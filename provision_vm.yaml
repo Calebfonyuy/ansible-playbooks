@@ -19,7 +19,6 @@
         owner: root
         group: root
         remote_src: yes
-        delegate_to: "{{ inventory_hostname }}"
     
     - name: Create VM Config File
       copy:
