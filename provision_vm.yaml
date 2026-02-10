@@ -18,6 +18,7 @@
         dest: "{{ vm_path }}/{{ vm_name }}/{{ vm_name }}.img"
         owner: root
         group: root
+        delegate_to: "{{ inventory_hostname }}"
     
     - name: Create VM Config File
       copy:
