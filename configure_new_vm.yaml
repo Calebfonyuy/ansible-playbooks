@@ -1,0 +1,27 @@
+---
+- name: Configure New VM
+  hosts: all
+  become: true
+  become_user: root
+  become_method: sudo
+  tasks:
+    - name: Update and Upgrade System
+      apt:
+        update_cache: yes
+        upgrade: yes
+    
+    - name: Change VM Hostname
+      hostname:
+        name: "{{ vm_name }}"
+    
+    - name: Change name in /etc/hosts
+      lineinfile:
+        path: /etc/hosts
+        regexp: '^127\.0\.1\.1\s+'
+        line: "127.0.1.1 {{ vm_name }}"
+
+    - name: Configure Static IP Address
+      lineinfile:
+        path: /etc/network/interfaces
+        regexp: '^iface eth0 inet'
+        line: "iface eth0 inet static\n    address {{ vm_ip }}\n    netmask 255.255.255.0\n    gateway 192.168.1.1\n    dns-nameservers 192.168.1.254"
