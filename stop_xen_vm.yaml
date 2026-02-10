@@ -5,5 +5,5 @@
   become_user: root
   become_method: sudo
   tasks:
-    - name: Ensure Xen VM is running
+    - name: Shutdown VM if it is running
       command: "xl destroy {{ vm_name }}"
