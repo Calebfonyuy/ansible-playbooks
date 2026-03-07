@@ -1,0 +1,19 @@
+---
+- name: Create User Account
+  hosts: all
+  become: true
+  become_user: root
+  become_method: sudo
+  tasks:
+    - name: Create new user account
+      user:
+        name: "{{ user_name }}"
+        password: "{{ user_password | password_hash('sha512') }}"
+        create_home: yes
+        generate_ssh_key: yes
+        ssh_key_bits: 2048
+        ssh_key_file: .ssh/id_rsa
+        state: present
+        shell: /bin/bash
+        groups: sudo
+        append: yes
