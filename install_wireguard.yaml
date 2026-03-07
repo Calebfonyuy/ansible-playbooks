@@ -50,7 +50,7 @@
           MTU = 1280
 
           [Peer]
-          PublicKey = {{ server_public_key }}
+          PublicKey = {{ public_key['stdout'] }}
           Endpoint = vpn.suuynyuy.com:51820
           AllowedIPs = 10.0.0.0/8
           PersistentKeepalive = 25
@@ -72,12 +72,4 @@
     - name: Show public key
       debug:
         var: public_key_output.stdout
-    
-    - name: Display private key
-      command: cat /etc/wireguard/private_key
-      register: private_key_output
-
-    - name: Show private key
-      debug:
-        var: private_key_output.stdout
 
