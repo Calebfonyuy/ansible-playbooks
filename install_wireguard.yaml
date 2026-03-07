@@ -50,7 +50,7 @@
           MTU = 1280
 
           [Peer]
-          PublicKey = {{ public_key['stdout'] }}
+          PublicKey = {{ server_public_key }}
           Endpoint = vpn.suuynyuy.com:51820
           AllowedIPs = 10.0.0.0/8
           PersistentKeepalive = 25
